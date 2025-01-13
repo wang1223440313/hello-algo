@@ -4,7 +4,7 @@
  * Author: WSL0809 (wslzzy@outlook.com), codingonion (coderonion@gmail.com)
  */
 
-include!("../include/include.rs");
+use hello_algo_rust::include::print_util;
 
 /* 基于数组实现的栈 */
 struct ArrayStack<T> {
@@ -36,10 +36,7 @@ impl<T> ArrayStack<T> {
 
     /* 出栈 */
     fn pop(&mut self) -> Option<T> {
-        match self.stack.pop() {
-            Some(num) => Some(num),
-            None => None,
-        }
+        self.stack.pop()
     }
 
     /* 访问栈顶元素 */
