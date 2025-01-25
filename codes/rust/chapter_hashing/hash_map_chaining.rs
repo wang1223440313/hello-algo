@@ -63,7 +63,7 @@ impl HashMapChaining {
     /* 扩容哈希表 */
     fn extend(&mut self) {
         // 暂存原哈希表
-        let buckets_tmp = std::mem::replace(&mut self.buckets, vec![]);
+        let buckets_tmp = std::mem::take(&mut self.buckets);
 
         // 初始化扩容后的新哈希表
         self.capacity *= self.extend_ratio;
@@ -102,17 +102,14 @@ impl HashMapChaining {
         // 遍历桶，若遇到指定 key ，则更新对应 val 并返回
         for pair in bucket {
             if pair.key == key {
-                pair.val = val.clone();
+                pair.val = val;
                 return;
             }
         }
         let bucket = &mut self.buckets[index];
 
         // 若无该 key ，则将键值对添加至尾部
-        let pair = Pair {
-            key,
-            val: val.clone(),
-        };
+        let pair = Pair { key, val };
         bucket.push(pair);
         self.size += 1;
     }
